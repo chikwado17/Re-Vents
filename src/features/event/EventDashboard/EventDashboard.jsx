@@ -1,100 +1,39 @@
 import React, { Component } from 'react';
-import { Grid, Button } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { Grid } from 'semantic-ui-react';
 import EventList from '../EventList/EventList';
-import EventForm from '../EventForm/EventForm';
-
-//static Data
-const eventsListDatas = [
-    {
-      id: '1',
-      title: 'Trip to Tower of London',
-      date: '2018-03-27T11:00:00+00:00',
-      category: 'culture',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
-      city: 'London, UK',
-      venue: "Tower of London, St Katharine's & Wapping, London",
-      hostedBy: 'Bob',
-      hostPhotoURL: 'https://randomuser.me/api/portraits/men/20.jpg',
-      attendees: [
-        {
-          id: 'a',
-          name: 'Bob',
-          photoURL: 'https://randomuser.me/api/portraits/men/20.jpg'
-        },
-        {
-          id: 'b',
-          name: 'Tom',
-          photoURL: 'https://randomuser.me/api/portraits/men/22.jpg'
-        }
-      ]
-    },
-    {
-      id: '2',
-      title: 'Trip to Punch and Judy Pub',
-      date: '2018-03-28T14:00:00+00:00',
-      category: 'drinks',
-      description:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.',
-      city: 'London, UK',
-      venue: 'Punch & Judy, Henrietta Street, London, UK',
-      hostedBy: 'Tom',
-      hostPhotoURL: 'https://randomuser.me/api/portraits/men/22.jpg',
-      attendees: [
-        {
-          id: 'b',
-          name: 'Tom',
-          photoURL: 'https://randomuser.me/api/portraits/men/22.jpg'
-        },
-        {
-          id: 'a',
-          name: 'Bob',
-          photoURL: 'https://randomuser.me/api/portraits/men/20.jpg'
-        }
-      ]
-    }
-  ]
-  
+import {  deleteEvent  } from '../../event/eventActions';
 
 
-
+//My HOC component for redux mapstate to props
+const mapStateToProps = (state) => ({
+  events:state.events
+})
 
 
  class EventDashboard extends Component {
-    constructor(props){
-        super(props);
 
-        this.state = {
-
-            eventsListData:eventsListDatas,
-            isOpen:false
-        }
+//handling the deleting events
+    handleDeleteEvent = (eventId) => () => {
+      //redux
+      this.props.dispatch(deleteEvent(eventId))
     }
 
-    handleIsOpen = () => {
-        this.setState({ isOpen: true });
-    }
-
-    handleCancel = () => {
-        this.setState({ isOpen: false });
-    }
   render() {
+    const { events } = this.props;
     return ( 
         <Grid>
             <Grid.Column width={10}>
-                {/* Passing eventsListData down to EventList component as events props */}
-                <EventList events={this.state.eventsListData} />
+                {/* Passing eventsListData down to EventList component as events props            from redux map state to props */}
+                <EventList deleteEvent={this.handleDeleteEvent} onEditEvent={this.handleEditEvent} events={events} />
             </Grid.Column>
       
             <Grid.Column width={6}>
-                <Button onClick={this.handleIsOpen} positive content="Create Event" />
-                {/* If the isOpen function is true then show the form else hide the form */}
-                                                        {/* passing handleCancel as props down to EventForm cancel button */}
-                { this.state.isOpen && <EventForm handleCancel={this.handleCancel}/> }
+                
             </Grid.Column>
         </Grid>
     )
   }
 }
 
-export default EventDashboard;
+export default connect(mapStateToProps)(EventDashboard);

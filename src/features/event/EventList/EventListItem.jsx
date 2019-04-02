@@ -1,12 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Segment, Item, Button, Icon, List } from 'semantic-ui-react';
-import EventListAttendee from '../EventList/EventListAttendee'; 
+import { Link } from 'react-router-dom';
+import EventListAttendee from './EventListAttendee'; 
 
 
-class EventLisItem extends Component {
+class EventListItem extends Component {
   render() {
       //passing down to get datas
-      const { event } = this.props;
+      const { event,deleteEvent } = this.props;
     return (
         <Segment.Group>
             <Segment>
@@ -25,12 +26,13 @@ class EventLisItem extends Component {
             <Segment>
                 <span>
                     <Icon name="clock" /> {event.date} |
-                    <Icon name="marker" /> {event.venue}
+                    <Icon name="marker" /> {event.venue}, {event.city}
                 </span>
             </Segment>
             <Segment secondary>
                 <List horizontal>
-                    {event.attendees.map((attendee) => (
+                    {/* if there is attendee use the one avaliable else also use the one avaliable */}
+                    {event.attendees && event.attendees.map((attendee) => (
                         //passing down the attendees data as a props to EvenaListAttendee component after looping.
                         <EventListAttendee key={attendee.id} attendee={attendee}/>
                      ))} 
@@ -38,11 +40,14 @@ class EventLisItem extends Component {
             </Segment>
             <Segment clearing>
                 <span>{event.description}</span>
-                <Button as="a" color="teal" floated="right" content="View" />
+                <Button onClick={deleteEvent(event.id)} as="a" color="red" floated="right" content="Delete" />
+                                        {/* A method to select our event for edit, after this pass selectedEvent as a props to EventDashboard down to EventForm*/}
+                <Button as={Link} to={`/event/${event.id}`} color="teal" floated="right" content="View" />
+                
             </Segment>
         </Segment.Group>
     )
   }
 }
 
-export default EventLisItem;
+export default EventListItem;
