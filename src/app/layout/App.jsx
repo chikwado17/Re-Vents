@@ -9,6 +9,7 @@ import EventDetailedPage from '../../features/event/EventDetailed/EventDetailedP
 import PeopleDashboard from '../../features/user/PeopleDashboard/PeopleDashboard';
 import UserDetailedPage from '../../features/user/UserDetailed/UserDetailedPage';
 import SettingsDashboard from '../../features/user/settings/SettingsDashboard';
+import ModalManager from '../../features/modals/ModalManager';
 
 
 
@@ -16,6 +17,7 @@ class App extends Component {
   render() {
     return (
       <div>
+      <ModalManager/>
         <Switch>
           <Route path="/" component={HomePage} exact={true}/>
         </Switch> 

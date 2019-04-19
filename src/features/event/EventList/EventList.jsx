@@ -10,7 +10,7 @@ class EventList extends Component {
     return (
       <div>
         {/* looping through the events props to get the datas */}
-        {events.map((event) => (
+        { events && events.map((event) => (
           //passing the event data from the loop as a props to EventListItem
           <EventListItem key={event.id} event={event}  deleteEvent={deleteEvent} />
 
