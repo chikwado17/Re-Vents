@@ -6,7 +6,7 @@ var config = {
     authDomain: "revents-236316.firebaseapp.com",
     databaseURL: "https://revents-236316.firebaseio.com",
     projectId: "revents-236316",
-    storageBucket: "",
+    storageBucket: "revents-236316.appspot.com",
     messagingSenderId: "886080437357"
   };
   firebase.initializeApp(config);

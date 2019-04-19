@@ -6,7 +6,12 @@ import moment from 'moment';
 
 
 
-const DateInput = ({ input: { value, onChange, ...restInput }, width, placeholder, meta: {touched, error}, ...rest }) => {
+const DateInput = ({ input: { value, onBlur, onChange, ...restInput }, width, placeholder, meta: {touched, error}, ...rest }) => {
+
+  //when need to check if there is a value coming in for date of birth which means the date is not null
+  if(value){
+    value = moment(value, 'X')
+  }
     return (
       <Form.Field error={touched && !!error}  width={width}>
       <DatePicker
@@ -15,6 +20,7 @@ const DateInput = ({ input: { value, onChange, ...restInput }, width, placeholde
       selected={value ? moment(value): null}
       onChange={onChange}
       {...restInput}
+      onBlur={() => onBlur()}
       />
       {touched && error && <Label basic color='red'>{error}</Label>}
       </Form.Field>

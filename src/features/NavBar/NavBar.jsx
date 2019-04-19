@@ -12,6 +12,7 @@ import SignedInMenu from './Menus/SignedInMenu';
 //the profile is getting the logged in user details
 const mapStateToProps = (state) => ({
     auth: state.firebase.auth,
+    //coming from firebase reducer: this is were all our user information is being stored.
     profile: state.firebase.profile
 })
 

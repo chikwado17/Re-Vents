@@ -106,7 +106,7 @@ class EventForm extends Component {
 
         //for venue input form field.
         values.venueLatLng = this.state.venueLatLng;
-        //check if the selected list event matches the initial value selected ID then update it
+        //check if the selected list event matches the initial value selected ID then update it, this also shows the data of the initial form selected
         if(this.props.initialValues.id){
 
             this.props.dispatch(updateEvent(values));
