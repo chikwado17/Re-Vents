@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
+import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { Grid } from 'semantic-ui-react';
 import EventList from '../EventList/EventList';
 import EventActivity from '../EventActivity/EventActivity';
@@ -11,7 +11,6 @@ import LoadingComponent from '../../../app/layout/LoadingComponent';
 //My HOC component for redux mapstate to props
 const mapStateToProps = (state) => ({
   events:state.firestore.ordered.events,
-  loading:state.async.loading
 })
 
 
@@ -24,11 +23,11 @@ const mapStateToProps = (state) => ({
     }
 
   render() {
-    const { events, loading} = this.props;
+    const { events } = this.props;
     //checking if loading from our redux rootreducer async reducer, if it is true then load our loading component
-    if(loading){
-      return <LoadingComponent inverted={true}/>
-    }
+    //checking if there is an object which is data in events if there is data then load before showing the page
+    if(!isLoaded(events) || isEmpty(events)) return <LoadingComponent inverted={true}/>
+
 
     return ( 
         <Grid>

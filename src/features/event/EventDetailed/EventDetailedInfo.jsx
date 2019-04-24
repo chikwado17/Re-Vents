@@ -1,9 +1,16 @@
 import React from 'react';
-import { Segment, Grid, Icon, Button } from 'semantic-ui-react';
+import { Segment, Grid, Icon } from 'semantic-ui-react';
 import format from 'date-fns/format';
 
 
 const EventDetailedInfo = ({event}) => {
+
+  let EventDate;
+  if(event.date){
+    EventDate = event.date.toDate();
+  }
+
+
   return (
        <Segment.Group>
           <Segment attached="top">
@@ -22,7 +29,7 @@ const EventDetailedInfo = ({event}) => {
                 <Icon name="calendar" size="large" color="teal" />
               </Grid.Column>
               <Grid.Column width={15}>
-                <span>{format(event.date, 'dddd Do MMM')} at {format(event.date, 'h:mm A')}</span>
+                <span>{format(EventDate, 'dddd Do MMM')} at {format(EventDate, 'h:mm A')}</span>
               </Grid.Column>
             </Grid>
           </Segment>
@@ -33,9 +40,6 @@ const EventDetailedInfo = ({event}) => {
               </Grid.Column>
               <Grid.Column width={11}>
                 <span>{event.venue}</span>
-              </Grid.Column>
-              <Grid.Column width={4}>
-                <Button color="teal" size="tiny" content="Show Map" />
               </Grid.Column>
             </Grid>
           </Segment>

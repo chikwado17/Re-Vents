@@ -122,3 +122,57 @@ export const setMainPhoto = (photo) => {
         }
     }
 }
+
+//for users which are going for an event
+export const goingToEvent = (event) => {
+    return async (dispatch, getState, {getFirestore}) => {
+        const firestore = getFirestore();
+        const user = firestore.auth().currentUser;
+        const photoURL = getState().firebase.profile.photoURL;
+        const attendee = {
+            going: true,
+            joinDate: Date.now(),
+            photoURL: photoURL || '/assets/user.png',
+            displayName: user.displayName,
+            host:false
+        }
+
+        try{
+            await firestore.update(`events/${event.id}`, {
+                //  [`attendees.${user.uid}`] this will be our object key, into our existing object map with is attendees
+                [`attendees.${user.uid}`] : attendee
+            })
+            await firestore.set(`event_attendee/${event.id}_${user.uid}`, {
+                eventId: event.id,
+                userUid: user.uid,
+                eventDate: event.date,
+                host: false
+            })
+            toastr.success('Success', 'You have signed in to the Event');
+        }catch(error){
+            console.log(error);
+            toastr.error('Oops!', 'Problem signing up to event');
+        }
+    }
+}
+
+
+//for your that wants to cancel event going
+export const cancelGoingToEvent = (event) => {
+    return async (dispatch, getState, { getFirestore }) => {
+        const firestore = getFirestore();
+        const user = firestore.auth().currentUser;
+
+        try{
+            await firestore.update(`events/${event.id}`, {
+                //deleting a field in firestore
+                [`attendees.${user.uid}`]: firestore.FieldValue.delete()
+            })
+            await firestore.delete(`event_attendee/${event.id}_${user.uid}`);
+            toastr.success('Success', 'You have removed yourself from the Event.');
+        }catch(error){
+            console.log(error);
+            toastr.error('Oops!','Something went wrong');
+        }
+    }
+}

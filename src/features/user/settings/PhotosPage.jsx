@@ -10,7 +10,7 @@ import 'cropperjs/dist/cropper.css';
 import { toastr } from 'react-redux-toastr';
 
 
-//quering the firestore
+//quering the firestore, getting the photos saved of firestore getting them out using firestoreConnect. using auth as a props to query firestore
 const query = ({auth}) => {
     return [
         {

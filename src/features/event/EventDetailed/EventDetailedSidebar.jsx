@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Segment, List, Item, Label } from 'semantic-ui-react';
 
 const EventDetailedSidebar = ({attendees}) => {
@@ -24,7 +25,7 @@ const EventDetailedSidebar = ({attendees}) => {
               {attendees && attendees.map(attendee => (
 
                   <Item key={attendee.id} style={{ position: 'relative' }}>
-                    {/* conditional rendering checking for host of the even */}
+                    {/* conditional rendering checking for the host of the event */}
                     {isHost &&
                     <Label
                       style={{ position: 'absolute' }}
@@ -37,7 +38,7 @@ const EventDetailedSidebar = ({attendees}) => {
                     <Item.Image size="tiny" src={attendee.photoURL} />
                     <Item.Content verticalAlign="middle">
                       <Item.Header as="h3">
-                        <a>{attendee.name}</a>
+                        <Link to={`/profile/${attendee.id}`}>{attendee.displayName}</Link>
                       </Item.Header>
                     </Item.Content>
                   </Item>
